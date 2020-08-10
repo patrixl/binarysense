@@ -11,7 +11,7 @@ All data is represented in binary form, and has some thresholds to define what c
 
 # How to use
 
-    python3 ./main.py 180
+    python3 ./binarysense.py 180
 
 Where 180 is the rotation I like (USB/Ethernet ports pointing upwards, so the data will display as columns)
 

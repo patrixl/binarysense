@@ -1,68 +1,41 @@
 #!/usr/bin/env python3
 # (c) 2020 Patrice LaFlamme see more details at the end of the file
 
-blue = (0,0,75)
-green = (0,75,0)
-red = (75,0,0)
-yellow = (75,75,0)
-black = (0, 0, 0)
+from sense_hat import SenseHat
+import time, datetime
+from src.sense import *
+import sys
 
-def convert_binary(value):
-    bin = "{0:8b}".format(value)
-    return bin
+sense = SenseHat()
 
-def binary_to_array(binary_string, color, precision = 8):
-    arr = []
-    for i in range(0,precision):
-        if binary_string[i] == '1':
-            arr.append(color)
-        else:
-            arr.append(black)
-    return arr
+temp_calibration = 10 # 10 for rpi2, 15 for rpi4?
 
-def value_to_color(value, thresholds, colors):
-    if value < thresholds[0]:
-        return colors[0]
-    elif value < thresholds[1]:
-        return colors[1]
-    else:
-        return colors[2]
+def main(argv):
+    sense.set_rotation(int(argv[0]))
+    sense.clear()
 
-def make_column(value, color):
-    return binary_to_array(convert_binary(value), color)
+    while True:
+        temperature = round(sense.get_temperature()) - temp_calibration
+        humidity = round(sense.get_humidity())
+        pressure = round(sense.get_pressure())
+        now = datetime.datetime.now()
+        hour = now.hour
+        minute = now.minute
+        second = now.second
 
-def temperature_to_color(value):
-    return value_to_color(value, [20, 25], [blue, green, red])
+        sense.set_pixels(
+            make_grid([
+                make_temperature(temperature), make_humidity(humidity), make_pressure(pressure),
+                make_blank(), make_blank(),
+                make_second(second), make_minute(minute), make_hour(hour)
+            ])
+        )
 
-def humidity_to_color(value):
-    return value_to_color(value, [50, 60], [red, green, blue])
+        time.sleep(0.25)
 
-def pressure_to_color(value):
-    return value_to_color(value, [1000, 1050], [red, green, blue])
+if __name__ == "__main__":
+    main(sys.argv[1:])
 
-def make_temperature(value):
-    return make_column(value, temperature_to_color(value))
-
-def make_humidity(value):
-    return make_column(value, humidity_to_color(value))
-
-def make_pressure(value):
-    return make_column(value - 1000, pressure_to_color(value))
-
-def make_hour(value):
-    return make_column(value, yellow)
-
-def make_minute(value):
-    return make_column(value, red)
-
-def make_second(value):
-    return make_column(value, blue)
-
-def make_blank():
-    return make_column(0, black)
-
-def make_grid(columns):
-    return  [y for x in columns for y in x]
 
 # Binary Sense - Binary clock and binary sensor readings with a Sense HAT
 #     Copyright (C) 2020 Patrice LaFlamme

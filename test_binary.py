@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pytest
-from binarysense import *
+from src.sense import *
 
 def test_make_column():
     assert make_column(0, red) == [black, black, black, black, black, black, black, black]
