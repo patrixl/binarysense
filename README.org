@@ -2,7 +2,7 @@
 #+AUTHOR: Patrice LaFlamme <patrix@patrix.org>
 #+DATE: <2020-08-10 Mon>
 
-* binary sense
+* Binary Sense
 
 Simple project to display a binary clock (hour, minute, second) in the first 3 columns of
 a Sense HAT, and (pressure, humidity, temperature) in the last 3 columns.
