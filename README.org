@@ -1,0 +1,3 @@
+#+TITLE: Binary clock and monitor on a Sense HAT
+#+AUTHOR: Patrice LaFlamme <patrix@patrix.org>
+#+DATE: <2020-08-10 Mon>
