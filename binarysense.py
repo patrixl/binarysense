@@ -10,13 +10,13 @@ def convert_binary(value):
     bin = "{0:8b}".format(value)
     return bin
 
-def binary_to_array(binary_string, color, precision = 8, blank = (0,0,0)):
+def binary_to_array(binary_string, color, precision = 8):
     arr = []
     for i in range(0,precision):
         if binary_string[i] == '1':
             arr.append(color)
         else:
-            arr.append(blank)
+            arr.append(black)
     return arr
 
 def value_to_color(value, thresholds, colors):
